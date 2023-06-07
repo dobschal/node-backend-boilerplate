@@ -28,6 +28,7 @@ docker run -d -p 3000:3000 node-server:latest
 ## Features
 
 - [ ] Authorisation with JWTs
+- [ ] Integration tests against temp database
 - [ ] Eslint with auto formatting
 - [ ] Postgres SQL
 - [ ] ExpressJS with router

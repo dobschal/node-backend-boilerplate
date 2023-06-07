@@ -34,14 +34,18 @@ npm install
 npm run lint
 ```
 
+## ☝️ Hints
+
+If a permission error for the build folder inside the docker container occurs, try to remove the image and container fully and build again.
+
 
 ## Features
 
 - [ ] Authorisation with JWTs
 - [ ] Integration tests against temp database
-- [ ] Eslint with auto formatting
-- [ ] Postgres SQL
-- [ ] ExpressJS with router
+- [x] Eslint with auto formatting
+- [ ] Postgres SQL database
+- [x] ExpressJS with router
 - [ ] Database Migrations
 - [x] Use Docker all the way
 - [x] Use TypeScript

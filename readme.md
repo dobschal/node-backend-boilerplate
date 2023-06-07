@@ -25,6 +25,16 @@ Run a Docker container with the previous built image and expose port 3000:
 docker run -d -p 3000:3000 node-server:latest
 ```
 
+## 🔍 Linting
+
+To enable linting, you need to have NodeJS and NPM installed. 
+Then install all dependencies and use the lint script as follows:
+```bash
+npm install
+npm run lint
+```
+
+
 ## Features
 
 - [ ] Authorisation with JWTs

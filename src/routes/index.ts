@@ -1,10 +1,9 @@
-import {Request, Response} from "express";
+import express, { type Request, type Response } from 'express'
 
-const express = require('express');
-const router = express.Router();
+const router = express.Router()
 
 router.get('/', (req: Request, res: Response) => {
-    res.send('home page');
-});
+  res.send('home page')
+})
 
-export default router;
+export default router

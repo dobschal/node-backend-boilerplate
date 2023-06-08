@@ -34,6 +34,11 @@ npm install
 npm run lint
 ```
 
+## ⚙️ Environment Variables
+
+Create a file `.env` and put all env vars there. (Copy the `.env.template` file).
+Inside the `docker-compose.yml` you can specify those env vars too.
+
 ## ☝️ Hints
 
 If a permission error for the build folder inside the docker container occurs, try to remove the image and container fully and build again.
@@ -43,12 +48,14 @@ If a permission error for the build folder inside the docker container occurs, t
 
 - [ ] Authorisation with JWTs
 - [ ] Integration tests against temp database
-- [x] Eslint with auto formatting
-- [ ] Postgres SQL database
-- [x] ExpressJS with router
-- [ ] Database Migrations
-- [x] Use Docker all the way
-- [x] Use TypeScript
 - [ ] Support OpenAPI specs
 - [ ] Use K8s (MiniKube) for Deployment
 - [ ] [Allow debugging with breakpoins](https://www.jetbrains.com/help/idea/node-with-docker-compose.html)
+- [x] Env vars from dockerfile
+- [x] Eslint with auto formatting
+- [x] Postgres SQL database
+- [x] Error handling for routes
+- [x] ExpressJS with router
+- [x] Database Migrations
+- [x] Use Docker all the way
+- [x] Use TypeScript

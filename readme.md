@@ -46,10 +46,8 @@ If a permission error for the build folder inside the docker container occurs, t
 
 ## Features
 
-- [ ] Authorisation with JWTs
-- [ ] Integration tests against temp database
-- [ ] Support OpenAPI specs
-- [ ] Use K8s (MiniKube) for Deployment
+- [ ] [Integration tests against temp database](https://losikov.medium.com/part-4-node-js-express-typescript-unit-tests-with-jest-5204414bf6f0)
+- [ ] [Use K8s (MiniKube) for Deployment](https://medium.com/skillshare-team/from-docker-compose-to-minikube-d94cbe97acda)
 - [ ] [Allow debugging with breakpoins](https://www.jetbrains.com/help/idea/node-with-docker-compose.html)
 - [x] Env vars from dockerfile
 - [x] Eslint with auto formatting

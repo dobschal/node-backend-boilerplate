@@ -1,5 +1,5 @@
 
-# This is the dockerfile for the production environment
+# This is the dockerfile for the development environment
 # It builds the application and runs it
 
 FROM node:lts-alpine

@@ -9,7 +9,7 @@ You need to have [Docker](https://docs.docker.com/get-docker/) installed.
 Then use Docker Compose to run the server.
 
 ```bash
-docker-compose up
+docker compose up
 ```
 
 This will run the server on the configured port and enable auto-restart on code changes 😎!
@@ -21,7 +21,7 @@ Add all environment variables into a `.env` file. See the existing template file
 Have the database running: You can do this via docker compose:
 
 ```bash
-docker-compose up -d postgres-database
+docker compose up -d postgres-database
 ```
 
 Then install all dependencies and run the server:
@@ -60,25 +60,12 @@ npm run lint
 Create a file `.env` and put all env vars there. (Copy the `.env.template` file).
 Inside the `docker-compose.yml` you can specify those env vars too.
 
+## Debugging with IntelliJ
+
+Add a new NodeJS configuration and target the `src/index.ts` file.
+Add all environment variables from the `.env` file to the configuration.
+
 ## ☝️ Hints
 
 If a permission error for the build folder inside the docker container occurs, try to remove the image and container
 fully and build again.
-
-## Features
-
-- [ ] [Integration tests against temp database](https://losikov.medium.com/part-4-node-js-express-typescript-unit-tests-with-jest-5204414bf6f0)
-- [ ] [Use K8s (MiniKube) for Deployment](https://medium.com/skillshare-team/from-docker-compose-to-minikube-d94cbe97acda)
-- [ ] [Allow debugging with breakpoins](https://www.jetbrains.com/help/idea/node-with-docker-compose.html)
-- [ ] Add auto loader for all routes
-- [ ] Add customer HTML elements for JS free client
-- [x] Add a view engine
-- [x] Authentication with username/password and JWTs
-- [x] Env vars from dockerfile
-- [x] Eslint with auto formatting
-- [x] Postgres SQL database
-- [x] Error handling for routes
-- [x] ExpressJS with router
-- [x] Database Migrations
-- [x] Use Docker all the way
-- [x] Use TypeScript

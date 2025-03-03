@@ -1,54 +1,42 @@
-import express, { type NextFunction, type Request, type Response } from 'express'
-import { expectStringProps } from '../core/typeChecker'
-import { database } from '../core/database'
-import { type UserModel } from '../types/UserModel'
-import { createToken, currentUsername } from '../core/auth'
+import User from '../models/User'
+import { type InferCreationAttributes } from 'sequelize'
+import { hasProps } from '@dobschal/type-checker'
+import hash from '../core/hash'
+import { createToken, currentUserId } from '../core/jwt'
+import { type Request } from 'express'
 
-const router = express.Router()
+export const prefix = '/users'
 
-// TODO: hash password
-
-// TODO: validate email
-
-router.post('/register', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    expectStringProps(req.body, ['username', 'password', 'email'])
-    const result = await database.query(`
-        insert into users (username, password, email)
-        values ($1, $2, $3)
-        returning *
-    `, [req.body.username, req.body.password, req.body.email])
-    res.send({
-      text: 'Users home page',
-      result: result.rows
-    })
-  } catch (e) {
-    next(e)
+export async function getCurrent (_: unknown, req: Request): Promise<User | null> {
+  const userId = currentUserId(req)
+  if (userId == null) {
+    throw new Error('401:Unauthorized')
   }
-})
+  return await User.findByPk(userId)
+}
 
-router.post('/login', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    expectStringProps(req.body, ['username', 'password'])
-    const result = await database.query<UserModel>('select * from users where username=$1', [req.body.username])
-    if (result.rows.length !== 1) throw new Error('401: Unauthorized')
-    const user = result.rows[0]
-    if (user.password !== req.body.password) throw new Error('401: Unauthorized')
-    res.send({
-      token: createToken(user.username)
-    })
-  } catch (e) { next(e) }
-})
+// TODO: Verify email
 
-router.get('/current', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const username = currentUsername(req)
-    const result = await database.query<UserModel>('select * from users where username=$1', [username])
-    if (result.rows.length !== 1) throw new Error('404: No user found')
-    res.send({
-      user: result.rows[0]
-    })
-  } catch (e) { next(e) }
-})
+export async function postRegister (user: InferCreationAttributes<User>): Promise<User> {
+  hasProps(user, {
+    password: String,
+    email: String
+  })
+  return await User.create({
+    email: user.email,
+    password: hash(user.password)
+  })
+}
 
-export default router
+export async function postLogin (body: InferCreationAttributes<User>): Promise<{ token: string }> {
+  const user = await User.findOne({ where: { email: body.email } })
+  if (user == null) {
+    throw new Error('401:User not found')
+  }
+  if (user.password !== hash(body.password)) {
+    throw new Error('401:Wrong password')
+  }
+  return {
+    token: createToken(user.id)
+  }
+}

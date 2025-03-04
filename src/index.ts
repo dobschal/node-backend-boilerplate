@@ -7,10 +7,12 @@ import { database } from './core/database'
 import { routeLoader } from '@dobschal/express-route-loader'
 import { ValidationError } from 'sequelize'
 
+import './core/email'
+
 dotenv.config()
 
 setup().catch((e) => {
-  console.error('❌[server] Setup failed: ', e)
+  console.error('❌[server] Setup failed: \n\n', e)
 })
 
 async function setup (): Promise<void> {
@@ -32,15 +34,21 @@ async function setup (): Promise<void> {
   })
 }
 
+function isValidationError (error: Error): error is (ValidationError & { original: { detail: string } }) {
+  return error instanceof ValidationError
+}
+
 function errorHandler (error: Error, req: Request, res: Response, next: NextFunction): void {
   let statusCode = Number(error.message.substring(0, 3))
+  let message = error.message
   if (isNaN(statusCode)) statusCode = 500
   if (statusCode === 500) {
-    if (error instanceof TypeError || error instanceof ValidationError) {
+    if (isValidationError(error)) {
+      message = error.original.detail
       statusCode = 400
     } else {
       console.error('❌[server] Error: ', error)
     }
   }
-  res.status(statusCode).send({ error: error.message })
+  res.status(statusCode).send({ message })
 }
